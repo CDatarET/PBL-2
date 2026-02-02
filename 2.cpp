@@ -25,16 +25,34 @@ void MobileUser::accept(){
 }
 
 void MobileUser::display(){
-    cout << "Username: " << username;
-    cout << "\nMobile Number: " << mobileNum << "\n\n";
+    cout << username << "          " << mobileNum << "\n\n";
 }
 
-void MobileUser::heapSort(){
+void heapSort(){
 
 }
 
 void mergeSort(MobileUser db[], int low, int high, int ){
 
+}
+
+void swap(MobileUser &a, MobileUser &b){
+    MobileUser t = a;
+    a = b;
+    b = t;
+}
+
+int partition(MobileUser db[], int p, int r){
+    int x = db[r].mobileNum;
+    int i = p - 1;
+    for(int j = p; j < r; j++){
+        if (db[j].mobileNum <= x){
+            i++;
+            swap(db[i], db[j]);
+        }
+    }
+    swap(db[i + 1], db[r]);
+    return(i + 1);
 }
 
 void qSortRec(MobileUser db[], int p, int r){
@@ -45,10 +63,6 @@ void qSortRec(MobileUser db[], int p, int r){
     }
 }
 
-int partition(MobileUser db[], int p, int r){
-    int x = db[r].mobileNum;
-}
-
 int main(){
     cout << "Hello World\n";
     int n;
@@ -56,8 +70,14 @@ int main(){
     cin >> n;
     MobileUser db[n];
 
-    for(int i = 0; i < n; i++) db[i].accept();
-    for(int i = 0; i < n; i++) db[i].display();
+    for(int i = 0; i < n; i++){
+        db[i].accept();
+    }
+
+    cout << "Username   Mobile Number\n";
+    for(int i = 0; i < n; i++){
+        db[i].display();
+    }
 
     char yn = 'y';
     while(yn == 'y'){
@@ -66,15 +86,23 @@ int main(){
         cin >> hmq;
 
         switch(hmq){
-            case 'h':
+            case 'H':
                 break;
             
-            case 'm':
+            case 'M':
                 break;
             
-            case 'q':
+            case 'Q':
+                qSortRec(db, 0, n);
+                cout << "Username   Mobile Number\n";
+                for(int i = 0; i < n; i++){
+                    db[i].display();
+                }
 
         }
+
+        cout << "Again? y/n:";
+        cin >> yn;
     }
 
     return(0);
