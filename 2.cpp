@@ -11,7 +11,6 @@ class MobileUser{
 
         void accept();
         void display();
-        void heapSort();
 };
 
 void MobileUser::accept(){
@@ -28,12 +27,40 @@ void MobileUser::display(){
     cout << username << "          " << mobileNum << "\n\n";
 }
 
-void heapSort(){
+void merge(MobileUser db[], int low, int mid, int high){
+    int i = low;
+    int j = mid + 1;
+    int k = 0;
 
+    MobileUser temp[high - low + 1];
+    while (i <= mid && j <= high){
+        if (db[i].username > db[j].username){
+            temp[k++] = db[i++];
+        } else {
+            temp[k++] = db[j++];
+        }
+    }
+
+    while (i <= mid){
+        temp[k++] = db[i++];
+    }
+
+    while (j <= high){
+        temp[k++] = db[j++];
+    }
+
+    for (int x = 0; x < k; x++){
+        db[low + x] = temp[x];
+    }
 }
 
-void mergeSort(MobileUser db[], int low, int high, int ){
-
+void mergeSort(MobileUser db[], int low, int high){
+    if (low < high){
+        int mid = (low + high) / 2;
+        mergeSort(db, low, mid);
+        mergeSort(db, mid + 1, high);
+        merge(db, low, mid, high);
+    }
 }
 
 void swap(MobileUser &a, MobileUser &b){
@@ -81,19 +108,21 @@ int main(){
 
     char yn = 'y';
     while(yn == 'y'){
-        cout << "Enter Heap Sort, Merge Sort, or Quick sort. H/M/Q:";
-        char hmq;
-        cin >> hmq;
+        cout << "Enter Merge Sort or Quick sort. M/Q:";
+        char mq;
+        cin >> mq;
 
-        switch(hmq){
-            case 'H':
-                break;
-            
+        switch(mq){            
             case 'M':
+                mergeSort(db, 0, n - 1);
+                cout << "Username   Mobile Number\n";
+                for(int i = 0; i < n; i++){
+                    db[i].display();
+                }
                 break;
             
             case 'Q':
-                qSortRec(db, 0, n);
+                qSortRec(db, 0, n - 1);
                 cout << "Username   Mobile Number\n";
                 for(int i = 0; i < n; i++){
                     db[i].display();
